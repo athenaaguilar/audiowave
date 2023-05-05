@@ -46,7 +46,13 @@ class _HomeScreenState extends State<HomeScreen> {
   void startTimer() {
     timer = Timer.periodic(
       const Duration(seconds: 1),
-      (_) => setState(() => secondsElapsed++),
+      (_) => setState(() {
+        secondsElapsed++;
+        if (secondsElapsed == 15) {
+          stopRecording();
+          showCustomToast('Recording automatically stopped.', context);
+        }
+      }),
     );
   }
 
@@ -185,7 +191,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   if (isSaved) {
                     showCustomToast('Audio successfully saved!', context);
                   } else {
-                    showCustomToast('Unable to save audio', context);
+                    showCustomToast('Unable to save audio.', context);
                   }
                 },
                 disabled: !hasRecording,
